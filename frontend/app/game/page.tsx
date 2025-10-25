@@ -4,6 +4,9 @@ import dynamic from 'next/dynamic';
 import HUD from '@/components/HUD';
 import DialogueBox from '@/components/DialogueBox';
 
+// Force dynamic rendering - no static generation
+export const dynamic = 'force-dynamic';
+
 // Dynamically import GameCanvas to avoid SSR issues with Phaser
 const GameCanvas = dynamic(() => import('@/components/GameCanvas'), {
   ssr: false,
