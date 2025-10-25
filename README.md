@@ -158,54 +158,53 @@ wichita-moon-game/
 
 ## 🚢 Deployment
 
-### Option 1: DigitalOcean (Recommended - Single Server)
+### Option 1: DigitalOcean App Platform (Recommended) ⭐
 
-**Quick Deploy with Docker:**
+**Easiest deployment - Production ready in 5 minutes!**
+
+```bash
+# 1. Push to GitHub (already done!)
+# 2. Create app at https://cloud.digitalocean.com/apps
+# 3. Connect your GitHub repo
+# 4. Add environment variable: ANTHROPIC_API_KEY
+# 5. Deploy!
+```
+
+**Cost:** $5/month • Auto-SSL • Auto-scaling • Zero-ops
+
+See [DEPLOY_DO_SIMPLE.md](DEPLOY_DO_SIMPLE.md) for step-by-step guide.
+
+### Option 2: Docker Droplet (More Control)
+
+**Quick Deploy:**
 
 ```bash
 # On your DigitalOcean droplet
-git clone <your-repo-url>
+git clone https://github.com/rangerchaz/icttothemoon.git
 cd icttothemoon
 
-# Setup environment
-cp .env.production .env
-nano .env  # Add your ANTHROPIC_API_KEY
+# Create .env file
+echo "ANTHROPIC_API_KEY=your-key-here" > .env
 
-# Deploy!
-./deploy.sh
+# Build and run
+./build-and-run.sh
+
+# Access at http://YOUR_DROPLET_IP:8080
 ```
 
-**Cost:** $6-12/month for complete setup
+**Cost:** $6-12/month for complete control
 
-See [DEPLOY_DIGITALOCEAN.md](DEPLOY_DIGITALOCEAN.md) for detailed instructions.
-
-### Option 2: Vercel + Railway (Separate Services)
-
-**Frontend (Vercel):**
-1. Push to GitHub
-2. Import to Vercel
-3. Set environment variables
-4. Deploy
-
-**Backend (Railway/Render):**
-1. Push to GitHub
-2. Create new project
-3. Set environment variables
-4. Deploy
-
-Don't forget to update CORS settings in `backend/src/server.js` with your production URLs!
-
-### Option 3: Local Docker Deployment
+### Option 3: Local Docker
 
 ```bash
+# Create .env
+echo "ANTHROPIC_API_KEY=your-key-here" > .env
+
 # Build and run
-docker-compose up -d
+docker build -t wichita-moon-game .
+docker run -d -p 8080:8080 --env-file .env wichita-moon-game
 
-# View logs
-docker-compose logs -f
-
-# Stop
-docker-compose down
+# Access at http://localhost:8080
 ```
 
 ## 🎨 Game Features

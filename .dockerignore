@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Node modules (will be installed during build)
+node_modules
+frontend/node_modules
+backend/node_modules
+
+# Next.js
+frontend/.next
+.next
+
+# Environment files
+.env
+.env.local
+.env*.local
+backend/.env
+frontend/.env.local
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Docker
+docker-compose*.yml
+Dockerfile.dev
+
+# Other
+.dockerignore
