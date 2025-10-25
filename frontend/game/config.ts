@@ -1,13 +1,13 @@
 import Phaser from 'phaser';
 
-export const GAME_CONFIG = {
+export const getGameConfig = () => ({
   width: 1200,
   height: 800,
   backgroundColor: '#000000',
   parent: 'game-container',
   pixelArt: true,
   physics: {
-    default: 'arcade',
+    default: 'arcade' as const,
     arcade: {
       gravity: { x: 0, y: 0 },
       debug: false
@@ -17,7 +17,7 @@ export const GAME_CONFIG = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   }
-};
+});
 
 // Game constants
 export const PLAYER_SPEED = 200;

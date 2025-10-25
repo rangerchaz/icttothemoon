@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
-import { GAME_CONFIG } from '../game/config';
+import { getGameConfig } from '../game/config';
 import { MenuScene } from '../game/scenes/MenuScene';
 import { WichitaScene } from '../game/scenes/WichitaScene';
 import { LaunchScene } from '../game/scenes/LaunchScene';
@@ -19,7 +19,7 @@ export default function GameCanvas() {
     if (gameRef.current) return;
 
     const config: Phaser.Types.Core.GameConfig = {
-      ...GAME_CONFIG,
+      ...getGameConfig(),
       parent: containerRef.current,
       scene: [MenuScene, WichitaScene, LaunchScene, MoonbaseScene]
     };
