@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "AI-Powered Moon Colonization Game featuring Wichita Landmarks",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server.js",
-    "build": "cd frontend && npm run build"
+    "build": "npm install --prefix frontend && cd frontend && npm run build",
+    "postinstall": "npm install --prefix frontend && npm install --prefix backend"
   },
   "keywords": ["game", "ai", "wichita", "moon", "phaser", "nextjs"],
   "author": "Wichita ICT Challenge",
