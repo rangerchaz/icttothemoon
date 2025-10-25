@@ -216,16 +216,17 @@ export class WichitaScene extends Phaser.Scene {
     });
 
     // Update UI
-    if (nearestInteraction) {
-      if (nearestInteraction.startsWith('landmark:')) {
-        const landmarkName = nearestInteraction.replace('landmark:', '');
+    if (nearestInteraction !== null) {
+      const interaction: string = nearestInteraction;
+      if (interaction.startsWith('landmark:')) {
+        const landmarkName = interaction.replace('landmark:', '');
         this.uiText.setText(`Press E to interact with ${landmarkName}`).setVisible(true);
 
         if (this.interactKey?.isDown) {
           this.handleLandmarkInteraction(landmarkName);
         }
-      } else if (nearestInteraction.startsWith('collect:')) {
-        const itemId = nearestInteraction.replace('collect:', '');
+      } else if (interaction.startsWith('collect:')) {
+        const itemId = interaction.replace('collect:', '');
         const item = this.collectibles.find(c => c.id === itemId);
         if (item) {
           this.uiText.setText(`Press E to collect ${item.name}`).setVisible(true);
