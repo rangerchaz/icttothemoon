@@ -186,7 +186,7 @@ export class WichitaScene extends Phaser.Scene {
 
     const playerPos = this.player.getPosition();
     let nearestInteraction: string | null = null;
-    let minDistance = INTERACT_DISTANCE;
+    let minDistance: number = INTERACT_DISTANCE;
 
     // Check landmarks
     this.landmarks.forEach((container, name) => {
