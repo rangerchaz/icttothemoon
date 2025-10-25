@@ -5,10 +5,14 @@
  * Single Express server handling both API and Frontend
  */
 
-const express = require('express');
-const next = require('next');
-const path = require('path');
-const cors = require('cors');
+import express from 'express';
+import next from 'next';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+import cors from 'cors';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const PORT = parseInt(process.env.PORT || '8080', 10);
 const dev = process.env.NODE_ENV !== 'production';
@@ -16,7 +20,7 @@ const dev = process.env.NODE_ENV !== 'production';
 // Initialize Next.js
 const app = next({
   dev,
-  dir: path.join(__dirname, 'frontend'),
+  dir: join(__dirname, 'frontend'),
   conf: {
     distDir: '.next'
   }
@@ -48,7 +52,7 @@ const createBackendApp = async () => {
   });
 
   // Backend API routes
-  const npcRoutes = require('./backend/src/routes/npc.js');
+  const npcRoutes = await import('./backend/src/routes/npc.js');
   server.use('/api/npc', npcRoutes.default || npcRoutes);
 
   // Prepare Next.js
