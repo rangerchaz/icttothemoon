@@ -1,6 +1,6 @@
 "use client";
 
-import dynamic from 'next/dynamic';
+import dynamicImport from 'next/dynamic';
 import HUD from '@/components/HUD';
 import DialogueBox from '@/components/DialogueBox';
 
@@ -8,7 +8,7 @@ import DialogueBox from '@/components/DialogueBox';
 export const dynamic = 'force-dynamic';
 
 // Dynamically import GameCanvas to avoid SSR issues with Phaser
-const GameCanvas = dynamic(() => import('@/components/GameCanvas'), {
+const GameCanvas = dynamicImport(() => import('@/components/GameCanvas'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-screen flex items-center justify-center bg-black text-white">
