@@ -15,12 +15,10 @@ export class Player {
   constructor(scene: Phaser.Scene, x: number, y: number) {
     this.scene = scene;
 
-    // Create player sprite (simple circle for now)
-    const graphics = scene.add.graphics();
-    graphics.fillStyle(0x00ff00, 1);
-    graphics.fillCircle(16, 16, 16);
-    graphics.generateTexture('player', 32, 32);
-    graphics.destroy();
+    // Create player sprite (person)
+    if (!scene.textures.exists('player')) {
+      this.createPlayerTexture(scene);
+    }
 
     this.sprite = scene.physics.add.sprite(x, y, 'player');
     this.sprite.setCollideWorldBounds(true);
@@ -28,6 +26,46 @@ export class Player {
 
     // Setup controls
     this.setupControls();
+  }
+
+  private createPlayerTexture(scene: Phaser.Scene): void {
+    const graphics = scene.add.graphics();
+
+    // Head - skin tone
+    graphics.fillStyle(0xfdbcb4, 1);
+    graphics.fillCircle(16, 10, 6);
+
+    // Body - blue shirt
+    graphics.fillStyle(0x4169e1, 1);
+    graphics.fillRect(11, 16, 10, 12);
+
+    // Arms
+    graphics.fillStyle(0xfdbcb4, 1);
+    graphics.fillRect(7, 18, 4, 8);
+    graphics.fillRect(21, 18, 4, 8);
+
+    // Pants - dark gray
+    graphics.fillStyle(0x505050, 1);
+    graphics.fillRect(12, 28, 4, 10);
+    graphics.fillRect(16, 28, 4, 10);
+
+    // Shoes - black
+    graphics.fillStyle(0x000000, 1);
+    graphics.fillRect(11, 38, 5, 3);
+    graphics.fillRect(16, 38, 5, 3);
+
+    // Eyes
+    graphics.fillStyle(0x000000, 1);
+    graphics.fillRect(13, 9, 2, 2);
+    graphics.fillRect(17, 9, 2, 2);
+
+    // Hair - brown
+    graphics.fillStyle(0x654321, 1);
+    graphics.fillCircle(16, 7, 7);
+    graphics.fillRect(10, 4, 12, 5);
+
+    graphics.generateTexture('player', 32, 42);
+    graphics.destroy();
   }
 
   private setupControls(): void {

@@ -4,7 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 import { gameStore } from '../game/GameStore';
 import { NPC, DialogueResponse, ConversationMessage } from '../game/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+// Use environment variable or default to empty string for relative URLs
+// In production, API is served from same domain at /api
+// In development with NEXT_PUBLIC_API_URL set, it will use that
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export default function DialogueBox() {
   const [isOpen, setIsOpen] = useState(false);

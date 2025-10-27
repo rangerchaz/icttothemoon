@@ -79,7 +79,7 @@ export default function Instructions() {
             <li className="flex items-start">
               <span className="mr-3">4.</span>
               <div>
-                <strong>Return to Wichita Airport</strong>
+                <strong>Return to Wichita Dwight D. Eisenhower National Airport</strong>
                 <p className="text-gray-400">When all objectives are complete, launch to the moon!</p>
               </div>
             </li>
@@ -104,7 +104,7 @@ export default function Instructions() {
               <p className="text-sm text-gray-400">Science museum - meet crew</p>
             </div>
             <div className="bg-gray-800 p-3 rounded">
-              <strong>Wichita Airport</strong>
+              <strong>Wichita Dwight D. Eisenhower National Airport</strong>
               <p className="text-sm text-gray-400">Launch site - depart for moon</p>
             </div>
           </div>

@@ -214,7 +214,7 @@ docker run -d -p 8080:8080 --env-file .env wichita-moon-game
 - **Century II** - Mission briefing
 - **Old Town** - Supply gathering
 - **Exploration Place** - Crew meeting
-- **Wichita Airport** - Launch site
+- **Wichita Dwight D. Eisenhower National Airport** - Launch site
 - References to Spirit AeroSystems, Cessna, Beechcraft
 
 ### AI Features

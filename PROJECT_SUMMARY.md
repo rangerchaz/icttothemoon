@@ -19,7 +19,7 @@ All requirements have been successfully implemented!
 ## 🎮 Game Features Implemented
 
 ### Phase 1: Wichita Exploration
-- 5 Wichita landmarks: Keeper of the Plains, Century II, Old Town, Exploration Place, Wichita Airport
+- 5 Wichita landmarks: Keeper of the Plains, Century II, Old Town, Exploration Place, Wichita Dwight D. Eisenhower National Airport
 - Interactive objectives system
 - Inventory system for collecting supplies
 - References to Wichita's aerospace heritage (Spirit AeroSystems, Cessna, Beechcraft)
