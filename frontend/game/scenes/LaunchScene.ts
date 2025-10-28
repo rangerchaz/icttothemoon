@@ -250,9 +250,9 @@ export class LaunchScene extends Phaser.Scene {
       container.add(window);
     }
 
-    // Nose cone - red
-    const noseCone = this.add.triangle(0, -65, 0, 0, -22, 60, 22, 60, 0xff0000);
-    noseCone.setOrigin(0.5, 1);
+    // Nose cone - red (centered triangle pointing up)
+    const noseCone = this.add.triangle(0, -95, 0, -30, -22.5, 30, 22.5, 30, 0xff0000);
+    noseCone.setOrigin(0.5, 0.5);
     container.add(noseCone);
 
     // Fins (4 fins)
