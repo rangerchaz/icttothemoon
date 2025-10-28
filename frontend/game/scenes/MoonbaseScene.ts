@@ -15,6 +15,11 @@ export class MoonbaseScene extends Phaser.Scene {
   private resources: number = 100; // Generic build resources
   private currentDay: number = 1;
 
+  // UI Text elements
+  private resourcesText?: Phaser.GameObjects.Text;
+  private dayText?: Phaser.GameObjects.Text;
+  private statusText?: Phaser.GameObjects.Text;
+
   // Event handlers
   private onStateChange?: () => void;
 
@@ -623,6 +628,31 @@ export class MoonbaseScene extends Phaser.Scene {
       this.openCrewDialogue();
     });
 
+    // Day counter - top left
+    this.dayText = this.add.text(20, 15, 'Day 1', {
+      fontSize: '20px',
+      color: '#ffff00',
+      fontStyle: 'bold',
+      backgroundColor: '#000000aa',
+      padding: { x: 10, y: 5 }
+    }).setOrigin(0, 0).setDepth(100);
+
+    // Resource display - left side
+    this.resourcesText = this.add.text(20, 60, '', {
+      fontSize: '16px',
+      color: '#ffffff',
+      backgroundColor: '#000000aa',
+      padding: { x: 10, y: 10 }
+    }).setOrigin(0, 0).setDepth(100);
+
+    // Status display - bottom center
+    this.statusText = this.add.text(width / 2, height - 30, '', {
+      fontSize: '14px',
+      color: '#00ff00',
+      backgroundColor: '#000000aa',
+      padding: { x: 15, y: 5 }
+    }).setOrigin(0.5, 0).setDepth(100);
+
     this.uiContainer.add([topBar, title, crewBtn]);
   }
 
@@ -635,8 +665,45 @@ export class MoonbaseScene extends Phaser.Scene {
   }
 
   private updateUI(): void {
-    // Update UI elements based on game state
-    // This will be called when state changes
+    if (!this.scene.isActive()) return;
+
+    try {
+      const state = gameStore.getState();
+
+      // Update day counter
+      if (this.dayText) {
+        this.dayText.setText(`Day ${state.day}`);
+      }
+
+      // Update resources
+      if (this.resourcesText) {
+        const oxygenColor = state.oxygen < 30 ? '#ff0000' : state.oxygen < 50 ? '#ffaa00' : '#00ff00';
+        const powerColor = state.power < 30 ? '#ff0000' : state.power < 50 ? '#ffaa00' : '#00ff00';
+        const foodColor = state.food < 30 ? '#ff0000' : state.food < 50 ? '#ffaa00' : '#00ff00';
+        const moraleColor = state.morale < 30 ? '#ff0000' : state.morale < 50 ? '#ffaa00' : '#00ff00';
+
+        const resourceLines = [
+          'RESOURCES:',
+          `💨 Oxygen: ${Math.max(0, Math.round(state.oxygen))}%`,
+          `⚡ Power: ${Math.max(0, Math.round(state.power))}%`,
+          `🍽️ Food: ${Math.max(0, Math.round(state.food))}%`,
+          `😊 Morale: ${Math.max(0, Math.round(state.morale))}%`,
+          '',
+          `🔧 Build Resources: ${this.resources}`
+        ];
+
+        this.resourcesText.setText(resourceLines.join('\n'));
+      }
+
+      // Update status message
+      if (this.statusText) {
+        const modulesBuilt = state.modulesBuilt.length;
+        const statusMsg = `Modules: ${modulesBuilt}/${WIN_CONDITIONS.minModules} | Click build slots to expand base`;
+        this.statusText.setText(statusMsg);
+      }
+    } catch (error) {
+      console.warn('Error updating UI:', error);
+    }
   }
 
   private startResourceDecay(): void {
@@ -786,5 +853,11 @@ export class MoonbaseScene extends Phaser.Scene {
     if (this.onStateChange) {
       gameStore.subscribe(this.onStateChange)(); // Unsubscribe
     }
+
+    // Clean up text objects
+    this.resourcesText = undefined;
+    this.dayText = undefined;
+    this.statusText = undefined;
   }
 }
+
