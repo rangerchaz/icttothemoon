@@ -21,7 +21,7 @@ export const getGameConfig = () => ({
 
 // Game constants
 export const PLAYER_SPEED = 200;
-export const INTERACT_DISTANCE = 80;
+export const INTERACT_DISTANCE = 150; // Increased for easier landmark interaction
 
 // Resource constants
 export const INITIAL_RESOURCES = {

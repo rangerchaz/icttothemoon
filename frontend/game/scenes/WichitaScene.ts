@@ -32,6 +32,7 @@ export class WichitaScene extends Phaser.Scene {
   private healthText?: Phaser.GameObjects.Text;
   private playerHealth: number = 100;
   private lastZombieHitTime: number = 0;
+  private interactionIndicators: Map<string, Phaser.GameObjects.Arc> = new Map();
 
   constructor() {
     super({ key: 'WichitaScene' });
@@ -546,6 +547,11 @@ export class WichitaScene extends Phaser.Scene {
     let nearestInteraction: string | null = null;
     let minDistance: number = INTERACT_DISTANCE;
 
+    // Hide all interaction indicators first
+    this.interactionIndicators.forEach(indicator => {
+      indicator.setVisible(false);
+    });
+
     // Check landmarks
     this.landmarks.forEach((container, name) => {
       const distance = Phaser.Math.Distance.Between(
@@ -556,6 +562,26 @@ export class WichitaScene extends Phaser.Scene {
       if (distance < minDistance) {
         minDistance = distance;
         nearestInteraction = `landmark:${name}`;
+
+        // Show interaction indicator
+        if (!this.interactionIndicators.has(name)) {
+          const indicator = this.add.arc(container.x, container.y, 70, 0, 360, false, 0x00ff00, 0);
+          indicator.setStrokeStyle(4, 0x00ff00, 0.8);
+          indicator.setDepth(50);
+          this.interactionIndicators.set(name, indicator);
+
+          // Pulsing animation
+          this.tweens.add({
+            targets: indicator,
+            alpha: 0.4,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            duration: 800,
+            yoyo: true,
+            repeat: -1
+          });
+        }
+        this.interactionIndicators.get(name)?.setVisible(true);
       }
     });
 
@@ -570,6 +596,27 @@ export class WichitaScene extends Phaser.Scene {
       if (distance < minDistance) {
         minDistance = distance;
         nearestInteraction = `collect:${item.id}`;
+
+        // Show interaction indicator for collectible
+        const indicatorKey = `collect_${item.id}`;
+        if (!this.interactionIndicators.has(indicatorKey)) {
+          const indicator = this.add.arc(item.x, item.y, 30, 0, 360, false, 0xffff00, 0);
+          indicator.setStrokeStyle(3, 0xffff00, 0.8);
+          indicator.setDepth(50);
+          this.interactionIndicators.set(indicatorKey, indicator);
+
+          // Pulsing animation
+          this.tweens.add({
+            targets: indicator,
+            alpha: 0.4,
+            scaleX: 1.2,
+            scaleY: 1.2,
+            duration: 600,
+            yoyo: true,
+            repeat: -1
+          });
+        }
+        this.interactionIndicators.get(indicatorKey)?.setVisible(true);
       }
     });
 
@@ -652,6 +699,14 @@ export class WichitaScene extends Phaser.Scene {
 
       item.sprite?.destroy();
       item.sprite = undefined;
+
+      // Remove interaction indicator
+      const indicatorKey = `collect_${itemId}`;
+      const indicator = this.interactionIndicators.get(indicatorKey);
+      if (indicator) {
+        indicator.destroy();
+        this.interactionIndicators.delete(indicatorKey);
+      }
 
       this.showMessage(`Collected: ${item.name}`);
 
