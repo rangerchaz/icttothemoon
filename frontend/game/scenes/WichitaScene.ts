@@ -845,19 +845,34 @@ export class WichitaScene extends Phaser.Scene {
   }
 
   private updateObjectivesDisplay(): void {
-    if (!this.objectiveText) return;
+    // Check if scene is active and text object exists
+    if (!this.scene.isActive() || !this.objectiveText || !this.objectiveText.scene) {
+      return;
+    }
 
-    const state = gameStore.getState();
-    const lines = ['OBJECTIVES:'];
+    try {
+      const state = gameStore.getState();
+      const lines = ['OBJECTIVES:'];
 
-    state.objectives.forEach(obj => {
-      const status = obj.completed ? '[✓]' : '[ ]';
-      lines.push(`${status} ${obj.description}`);
-    });
+      state.objectives.forEach(obj => {
+        const status = obj.completed ? '[✓]' : '[ ]';
+        lines.push(`${status} ${obj.description}`);
+      });
 
-    lines.push('');
-    lines.push(`SUPPLIES: ${state.inventory.length}/3`);
+      lines.push('');
+      lines.push(`SUPPLIES: ${state.inventory.length}/3`);
 
-    this.objectiveText.setText(lines.join('\n'));
+      this.objectiveText.setText(lines.join('\n'));
+    } catch (error) {
+      console.warn('Error updating objectives display:', error);
+    }
+  }
+
+  shutdown(): void {
+    // Clean up when scene is destroyed
+    this.objectiveText = undefined;
+    this.uiText = undefined;
+    this.healthText = undefined;
+    this.interactionIndicators.clear();
   }
 }
